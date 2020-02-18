@@ -1,6 +1,20 @@
 from moto.core.utils import get_random_hex
+import datetime
+import jwt
+
 
 
 def get_random_identity_id(region):
-    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdF9oYXNoIjoiOENGQW44MGd6ZXRCSDlSMXNIdXM0QSIsInN1YiI6ImNhZjYxMjcyLWJmM2UtNGIxZC1iZTViLWMxZDEzZjU1NDdhYiIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczovL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tL3VzLWVhc3QtMl9GNkwzVGVXa0ciLCJwaG9uZV9udW1iZXJfdmVyaWZpZWQiOnRydWUsImNvZ25pdG86dXNlcm5hbWUiOiJjYWY2MTI3Mi1iZjNlLTRiMWQtYmU1Yi1jMWQxM2Y1NTQ3YWIiLCJnaXZlbl9uYW1lIjoidXNlciIsInBpY3R1cmUiOiJub25lIiwiYXVkIjoiNjc4bGoyam1hbjZzNDVpcWowamQ4YzljMG8iLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTU4MTYyNzc1MiwibmFtZSI6ImZpcnN0IiwicGhvbmVfbnVtYmVyIjoiKzE5MDg5MDg5MDg5IiwiZmFtaWx5X25hbWUiOiJsYXN0IiwiZW1haWwiOiJmaXJzdEBmaXJzdC5jb20iLCJpYXQiOjE1ODE5NjA5NjYsImV4cCI6MTU4MjA0NzM2Nn0.evZUrAVG6EzksUbxJOirMPuPCiQtF6DZ95HAJkvuiUo"
+    message = {
+    'email': 'first@first.com',
+    'poolIdentiyId': region,
+    'iat': datetime.datetime.utcnow(), 
+    'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30) 
+    }
+    token = jwt.encode(message,'secret', algorithm='HS256')
+    return token.decode('UTF-8')
+
+
+
+def get_user_token(region,token):
     return "{0}:{1}".format(region, token)
